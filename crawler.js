@@ -10,6 +10,7 @@ async function get(page) {
     try {
         const data = await makeRequest(requestURL);
         parsedData = JSON.parse(data);
+	console.log(parsedData);
         for (let item of parsedData.items) {
             let result = await makeRequest(item.url);
             const parsedRes = JSON.parse(result);
