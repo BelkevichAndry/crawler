@@ -5,14 +5,16 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "./node_modules/.bin/babel-node crawler.js"
+    "dev": "./node_modules/.bin/babel-node app.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "config": "^3.2.1",
     "express": "^4.16.3",
     "gulp": "^4.0.0",
+    "mongodb": "^3.3.0-beta2",
     "redis": "^2.8.0",
     "request": "^2.87.0",
     "request-promise-native": "^1.0.5"

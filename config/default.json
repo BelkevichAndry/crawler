@@ -1,0 +1,11 @@
+{
+  "end_point" : {
+    "base_url":"https://api.hh.ru/vacancies"
+  },
+  "db": {
+    "name": "techFrequency",
+    "url": "mongodb://localhost:27017"
+  },
+  "techList": ["java", "javascript","c#","python","c++","android","ruby","c++","swift",
+    "TypeScript","Go","SQL","R","PHP","Perl","Kotlin","Rust","Erlang","Scala","Elixir","Haskell"]
+}

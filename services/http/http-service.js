@@ -9,8 +9,8 @@ const options = (url) => {
     }
 };
 
-const makeRequest = async url => {
-    return await request(options(url));
+const makeRequest = url => {
+    return request(options(url));
 };
 
 export default makeRequest
