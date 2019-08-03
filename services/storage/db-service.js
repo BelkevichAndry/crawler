@@ -4,7 +4,7 @@ const config = require('config');
 const URL = config.get('db.url');
 const DB_NAME = config.get('db.name');
 
-export  function dbConnector() {
+export  function mongoConnector() {
     return MongoClient.connect(URL, {useNewUrlParser: true})
         .then(mongoClient => {
             console.log("Connection to DB established");

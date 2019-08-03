@@ -1,12 +1,9 @@
 import run from './crawler'
-import {connectToDb, close, dbConnector} from "./services/storage/db-service";
+import {mongoConnector, close, connectToDb} from "./services/storage/db-service";
 
-dbConnector()
+mongoConnector()
     .then(connectToDb)
     .then(run)
     .then(close);
-
-
-
 
 
