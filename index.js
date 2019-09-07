@@ -11,12 +11,7 @@ app.get('/data', (req, res) => res.json(data))
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
 
-
-// let data = {a: "s",s :"d"}
-
 let data =
-
-
         [{
             id: "5d51789dbfc81b91d0404edf",
             tech: 'java',

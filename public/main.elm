@@ -1,8 +1,10 @@
 module Main exposing (Model(..), Msg(..), init, main, subscriptions, update, view)
 
 import Browser
-import Html exposing (Html, pre, text)
+import Html exposing (Html, br, div, pre, text)
 import Http
+import Json.Decode exposing (Decoder, array, field, int, list, map4, string)
+import List
 
 
 
@@ -25,15 +27,15 @@ main =
 type Model
     = Failure
     | Loading
-    | Success String
+    | Success (List Response)
 
 
 init : () -> ( Model, Cmd Msg )
 init _ =
     ( Loading
     , Http.get
-        { url = "https://elm-lang.org/assets/public-opinion.txt"
-        , expect = Http.expectString GotText
+        { url = "http://localhost:3000/data"
+        , expect = Http.expectJson GotText jsonDecoder
         }
     )
 
@@ -43,7 +45,7 @@ init _ =
 
 
 type Msg
-    = GotText (Result Http.Error String)
+    = GotText (Result Http.Error (List Response))
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -51,8 +53,8 @@ update msg model =
     case msg of
         GotText result ->
             case result of
-                Ok fullText ->
-                    ( Success fullText, Cmd.none )
+                Ok url ->
+                    ( Success url, Cmd.none )
 
                 Err _ ->
                     ( Failure, Cmd.none )
@@ -81,4 +83,36 @@ view model =
             text "Loading..."
 
         Success fullText ->
-            pre [] [ text fullText ]
+            div [] (List.map draw fullText)
+
+
+draw : Response -> Html Msg
+draw value =
+    div []
+        [ div [] [ text value.tech ]
+        , div [] [ text value.date ]
+        , div [] [ text (String.fromInt value.found) ]
+        , div [] [ text value.id ]
+        ]
+
+
+type alias Response =
+    { id : String
+    , tech : String
+    , found : Int
+    , date : String
+    }
+
+
+jsonDecoder : Decoder (List Response)
+jsonDecoder =
+    list responseDecoder
+
+
+responseDecoder : Decoder Response
+responseDecoder =
+    map4 Response
+        (field "id" string)
+        (field "tech" string)
+        (field "found" int)
+        (field "date" string)
