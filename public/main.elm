@@ -1,118 +1,86 @@
-module Main exposing (Model(..), Msg(..), init, main, subscriptions, update, view)
+module Docs.LineChart.Example1 exposing (main)
 
-import Browser
-import Html exposing (Html, br, div, pre, text)
-import Http
-import Json.Decode exposing (Decoder, array, field, int, list, map4, string)
-import List
+import Html
+import LineChart
+import LineChart.Area as Area
+import LineChart.Axis as Axis
+import LineChart.Axis.Intersection as Intersection
+import LineChart.Axis.Line as AxisLine
+import LineChart.Axis.Range as Range
+import LineChart.Axis.Tick as Tick
+import LineChart.Axis.Ticks as Ticks
+import LineChart.Axis.Title as Title
+import LineChart.Axis.Values as Values
+import LineChart.Colors as Colors
+import LineChart.Container as Container
+import LineChart.Coordinate as Coordinate
+import LineChart.Dots as Dots
+import LineChart.Events as Events
+import LineChart.Grid as Grid
+import LineChart.Interpolation as Interpolation
+import LineChart.Junk as Junk
+import LineChart.Legends as Legends
+import LineChart.Line as Line
+import Time
 
 
-
--- MAIN
-
-
+main : Html.Html msg
 main =
-    Browser.element
-        { init = init
-        , update = update
-        , subscriptions = subscriptions
-        , view = view
+    chart
+
+
+type alias Point =
+    { x : Float, y : Float }
+
+
+chart : Html.Html msg
+chart =
+    LineChart.viewCustom
+        { x = xAxisConfig
+        , y = Axis.default 400 "Vacancies" .y
+        , container = Container.default "line-chart-1"
+        , interpolation = Interpolation.default
+        , intersection = Intersection.default
+        , legends = Legends.default
+        , events = Events.default
+        , junk = Junk.default
+        , grid = Grid.default
+        , area = Area.default
+        , line = Line.default
+        , dots = Dots.default
         }
+        [ LineChart.line Colors.blueLight Dots.square "Year" [ Point 1546300800000 0 ]
 
-
-
--- MODEL
-
-
-type Model
-    = Failure
-    | Loading
-    | Success (List Response)
-
-
-init : () -> ( Model, Cmd Msg )
-init _ =
-    ( Loading
-    , Http.get
-        { url = "http://localhost:3000/data"
-        , expect = Http.expectJson GotText jsonDecoder
-        }
-    )
-
-
-
--- UPDATE
-
-
-type Msg
-    = GotText (Result Http.Error (List Response))
-
-
-update : Msg -> Model -> ( Model, Cmd Msg )
-update msg model =
-    case msg of
-        GotText result ->
-            case result of
-                Ok url ->
-                    ( Success url, Cmd.none )
-
-                Err _ ->
-                    ( Failure, Cmd.none )
-
-
-
--- SUBSCRIPTIONS
-
-
-subscriptions : Model -> Sub Msg
-subscriptions model =
-    Sub.none
-
-
-
--- VIEW
-
-
-view : Model -> Html Msg
-view model =
-    case model of
-        Failure ->
-            text "I was unable to load your book."
-
-        Loading ->
-            text "Loading..."
-
-        Success fullText ->
-            div [] (List.map draw fullText)
-
-
-draw : Response -> Html Msg
-draw value =
-    div []
-        [ div [] [ text value.tech ]
-        , div [] [ text value.date ]
-        , div [] [ text (String.fromInt value.found) ]
-        , div [] [ text value.id ]
+        -- [ Point 1546300800000 0
+        -- , Point 1549021050943 1
+        -- , Point 1551440250943 2
+        -- , Point 1554118650943 3
+        -- , Point 1556710650943 4
+        -- , Point 1559389050943 5
+        -- , Point 1561981050943 6
+        -- , Point 1564659450943 7
+        -- , Point 1567337850943 8
+        -- , Point 1569929850943 9
+        -- , Point 1572608250943 10
+        -- , Point 1575200250943 11
+        -- , Point 1577878650943 11
+        -- , Point 1580557050943 11
+        -- ]
         ]
 
 
-type alias Response =
-    { id : String
-    , tech : String
-    , found : Int
-    , date : String
-    }
+xAxisConfig : Axis.Config Point msg
+xAxisConfig =
+    Axis.custom
+        { title = Title.default "Year"
+        , variable = Just << .x
+        , pixels = 2000
+        , range = Range.default
+        , axisLine = AxisLine.default
+        , ticks = ticksConfig
+        }
 
 
-jsonDecoder : Decoder (List Response)
-jsonDecoder =
-    list responseDecoder
-
-
-responseDecoder : Decoder Response
-responseDecoder =
-    map4 Response
-        (field "id" string)
-        (field "tech" string)
-        (field "found" int)
-        (field "date" string)
+ticksConfig : Ticks.Config msg
+ticksConfig =
+    Ticks.time Time.utc 12
