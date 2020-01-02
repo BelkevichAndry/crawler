@@ -4,7 +4,8 @@
   },
   "db": {
     "name": "techFrequency",
-    "url": "mongodb://mongo:27017"
+    "url_docker": "mongodb://mongo:27017",
+    "url":"mongodb://localhost:27017"
   },
   "techList": ["java", "javascript","c#","python","c++","android","ruby","c++","swift",
     "TypeScript","Go","SQL","R","PHP","Perl","Kotlin","Rust","Erlang","Scala","Elixir","Haskell"]
