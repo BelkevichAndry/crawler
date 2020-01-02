@@ -1,7 +1,7 @@
 const MongoClient = require('mongodb').MongoClient;
 const config = require('config');
 
-const URL = config.get('db.url');
+const URL = config.get('db.url_docker');
 const DB_NAME = config.get('db.name');
 
 export  function mongoConnector() {
