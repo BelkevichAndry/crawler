@@ -6,3 +6,5 @@ docker-compose up -d --build
 
 docker exec containerId(crawler_app) npm run dev
 
+
+
