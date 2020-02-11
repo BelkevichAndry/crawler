@@ -6,5 +6,9 @@ docker-compose up -d --build
 
 docker exec containerId(crawler_app) npm run dev
 
+web
+react + webpack 
 
+ui framework 
+https://react-bootstrap.github.io
 
