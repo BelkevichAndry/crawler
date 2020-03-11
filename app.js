@@ -10,13 +10,15 @@ const app = express();
 //     .then(close);
 
 app.get('/get-data', async function (req, res) {
-    
+
     await mongoConnector()
     .then(connectToDb)
     .then(getAllData)
     .then(close)
     .then( (data) => {res.send(data)})
 })
+
+
 
 
 app.listen(3000, function () {
