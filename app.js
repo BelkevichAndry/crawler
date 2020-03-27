@@ -10,12 +10,24 @@ const app = express();
 //     .then(close);
 
 app.get('/get-data', async function (req, res) {
-    
     await mongoConnector()
     .then(connectToDb)
     .then(getAllData)
     .then(close)
-    .then( (data) => {res.send(data)})
+    .then((data) => {
+        res.send(data.forEach((elm)=> { 
+            console.log(elm)
+            elm.slice(1) 
+        }))
+    })
+})
+
+app.get('/parse-new-data', function (req, res) {
+    // mongoConnector()
+    //     .then(connectToDb)
+    //     .then(run)
+    //     .then(close);
+    res.send('Parse new Data')
 })
 
 
