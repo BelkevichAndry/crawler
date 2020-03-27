@@ -1,12 +1,12 @@
 import React, { Component } from "react";
-import { Button } from 'react-bootstrap';
+import { Button, Container, Row, Col } from 'react-bootstrap';
 import request from './../services/request'
 import {Pie, Doughnut} from 'react-chartjs-2'
 import '../styles/App.css';
 
 	
 class App extends Component {
-	
+
 	constructor() {
 		super();
 		this.state = { data: [] };
@@ -82,38 +82,42 @@ class App extends Component {
     render() {
 		return (
 		<div>
-		<Pie
-          data={this.state}
-          options={{
-            title:{
-              display:true,
-              text:'Vacancies by Tech',
-              fontSize:20
-            },
-            legend:{
-              display:true,
-              position:'right'
-            }
-          }}
-        />
-
-        <Doughnut
-          data={this.state}
-          options={{
-            title:{
-              display:true,
-              text:'Vacancies by Tech',
-              fontSize:20
-            },
-            legend:{
-              display:true,
-              position:'right'
-            }
-          }}
-        />
-
+			<Container fluid>
+  			<Row>
+    			<Col>
+				<Pie
+          			data={this.state}
+          			options={{
+            		title:{
+              		display:true,
+              		text:'Vacancies by Tech',
+              		fontSize:20
+            		},
+            		legend:{
+              		display:true,
+              		position:'right'
+            		}
+          }}/></Col>
+    			<Col>
+				<Doughnut
+          			data={this.state}
+          			options={{
+            		title:{
+              			display:true,
+              			text:'Vacancies by Tech',
+              			fontSize:20
+            		},
+            		legend:{
+              			display:true,
+              			position:'right'
+            		}
+          		}}/></Col>
+  			</Row>
+			</Container>
+				  <br></br>
+				  <br></br>
 			<ol>
-				{this.state.data.slice(0, 21).map(element => <li key={element._id}>{element.tech} {element.found} {element.date}</li>)}
+				{this.state.data.slice(0, 21).map(element => <li key={element._id}> {element.tech} ------- Vacancies:{element.found} ------ Date of scaning {element.date}</li>)}
     		</ol>
 			
 			{/*You can get reference to the chart instance as shown above using onRef. This allows you to access all chart properties and methods*/}
