@@ -1,39 +1,121 @@
 import React, { Component } from "react";
 import { Button } from 'react-bootstrap';
-import CanvasJSReact from './../lib/canvasjs.react';
-var CanvasJSChart = CanvasJSReact.CanvasJSChart;
-
+import request from './../services/request'
+import {Pie, Doughnut} from 'react-chartjs-2'
 import '../styles/App.css';
 
+	
 class App extends Component {
-    render() {
-		const options = {
-			animationEnabled: true,
-			exportEnabled: true,
-			theme: "dark2", // "light1", "dark1", "dark2"
-			title:{
-				text: "Stats"
-			},
-			data: [{
-				type: "pie",
-				indexLabel: "{label}: {y}%",		
-				startAngle: -90,
-				dataPoints: [
-					{ y: 30, label: "c#, c++" },
-					{ y: 14, label: "javascript" },
-					{ y: 20, label: "PHP" },
-					{ y: 14, label: "python" },
-					{ y: 19, label: "SQL" },
-					{ y: 2, label: "Rust" }	
-				]
-			}]
+	
+	constructor() {
+		super();
+		this.state = { data: [] };
+	}	
+
+	async componentDidMount() {
+
+		let percent; 
+		try {
+			await request.getFullData()
+				.then((res)=> {
+					percent = this.prepeareDataForPie(res);
+					this.setState({ data: res })
+			})
+		} catch (error) {
+			console.log(error);
 		}
-		
+
+		let techLables = [];
+		let dataLables = [];
+		let arrayOfColors = [];
+
+		percent.map((elm) => {
+			techLables.push(elm.tech); 
+			dataLables.push(elm.percent);
+			arrayOfColors.push(this.getRandomColor());
+		});
+	
+		  this.setState({
+			labels: techLables,
+			datasets: [
+			  {
+				label: 'Work Situation',
+				backgroundColor: arrayOfColors,
+				hoverBackgroundColor: [
+				'#501800',
+				'#4B5000',
+				'#175000',
+				'#003350',
+				'#35014F'
+				],
+				data: dataLables
+			  }
+			]
+		  })
+	}
+
+	// Color randomizer 
+	getRandomColor() {
+		var letters = '0123456789ABCDEF';
+		var color = '#';
+		for (var i = 0; i < 6; i++) {
+		  color += letters[Math.floor(Math.random() * 16)];
+		}
+		return color;
+	}
+	//Percent creator
+	prepeareDataForPie(res) {
+		let percent = [];
+		let allPercent = 0;
+		res.slice(0, 21).map(element =>{ 
+			allPercent+= element.found;
+		})
+		res.slice(0, 21).map(element =>{ 
+			percent.push({
+				tech: element.tech,
+				percent: element.found / allPercent * 100
+			});
+		})
+		return percent
+	}
+
+    render() {
 		return (
 		<div>
-			<CanvasJSChart options = {options} 
-				/* onRef={ref => this.chart = ref} */
-			/>
+		<Pie
+          data={this.state}
+          options={{
+            title:{
+              display:true,
+              text:'Vacancies by Tech',
+              fontSize:20
+            },
+            legend:{
+              display:true,
+              position:'right'
+            }
+          }}
+        />
+
+        <Doughnut
+          data={this.state}
+          options={{
+            title:{
+              display:true,
+              text:'Vacancies by Tech',
+              fontSize:20
+            },
+            legend:{
+              display:true,
+              position:'right'
+            }
+          }}
+        />
+
+			<ol>
+				{this.state.data.slice(0, 21).map(element => <li key={element._id}>{element.tech} {element.found} {element.date}</li>)}
+    		</ol>
+			
 			{/*You can get reference to the chart instance as shown above using onRef. This allows you to access all chart properties and methods*/}
 		</div>
 		);

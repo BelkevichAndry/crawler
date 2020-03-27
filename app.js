@@ -15,10 +15,9 @@ app.get('/get-data', async function (req, res) {
     .then(getAllData)
     .then(close)
     .then((data) => {
-        res.send(data.forEach((elm)=> { 
-            console.log(elm)
-            elm.slice(1) 
-        }))
+        res.header("Access-Control-Allow-Origin", "*");
+        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+        res.send(data)
     })
 })
 
