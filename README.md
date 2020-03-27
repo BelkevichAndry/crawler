@@ -1,10 +1,20 @@
 # crawler
 
-Now if you want create docker build change db.url to docker_url
+~~Now if you want create docker build change db.url to docker_url~~
 
-docker-compose up -d --build
+_Moved to node_env logic_
 
-docker exec containerId(crawler_app) npm run dev
+
+To run docker local  
+
+1. docker-compose up -d --build
+
+2. docker exec containerId(crawler_app) npm run docker
+
+
+To run server local
+
+1. run command "npm run dev"
 
 web
 react + webpack 
