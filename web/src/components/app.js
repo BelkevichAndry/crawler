@@ -119,30 +119,10 @@ class App extends Component {
 			<ol>
 				{this.state.data.slice(0, 21).map(element => <li key={element._id}> {element.tech} ------- Vacancies:{element.found} ------ Date of scaning {element.date}</li>)}
     		</ol>
-			
-			{/*You can get reference to the chart instance as shown above using onRef. This allows you to access all chart properties and methods*/}
 		</div>
 		);
 	}
 
-
-    // render() {
-    //     return (
-    //         <div>
-    //             <h1>My React App!</h1>
-    //                 <Button variant="primary">Primary</Button>
-    //                 <Button variant="secondary">Secondary</Button>
-    //                 <Button variant="success">Success</Button>
-    //                 <Button variant="warning">Warning</Button>
-    //                 <Button variant="danger">Danger</Button>
-    //                 <Button variant="info">Info</Button>
-    //                 <Button variant="light">Light</Button>
-    //                 <Button variant="dark">Dark</Button>
-    //                 <Button variant="link">Link</Button>
-    //         </div>
-            
-    //     );
-    // }
 }
 
 export default App;
