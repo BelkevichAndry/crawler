@@ -67,10 +67,10 @@ class App extends Component {
 	prepeareDataForPie(res) {
 		let percent = [];
 		let allPercent = 0;
-		res.slice(0, 21).map(element =>{ 
+		res.slice(res.length - 21, -1).map(element =>{ 
 			allPercent+= element.found;
 		})
-		res.slice(0, 21).map(element =>{ 
+		res.slice(res.length - 21, -1).map(element =>{ 
 			percent.push({
 				tech: element.tech,
 				percent: element.found / allPercent * 100
@@ -117,7 +117,7 @@ class App extends Component {
 				  <br></br>
 				  <br></br>
 			<ol>
-				{this.state.data.slice(0, 21).map(element => <li key={element._id}> {element.tech} ------- Vacancies:{element.found} ------ Date of scaning {element.date}</li>)}
+				{this.state.data.slice(this.state.data.length - 21, -1).map(element => <li key={element._id}> {element.tech} ------- Vacancies:{element.found} ------ Date of scaning {element.date}</li>)}
     		</ol>
 		</div>
 		);
