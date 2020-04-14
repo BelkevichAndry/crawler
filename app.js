@@ -1,4 +1,5 @@
 import run from './crawler'
+import router from './routes/routes'
 import {mongoConnector, close, connectToDb, getAllData} from "./services/storage/db-service";
 import express from "express";
 
@@ -9,17 +10,7 @@ const app = express();
 //     .then(run)
 //     .then(close);
 
-app.get('/get-data', async function (req, res) {
-
-    await mongoConnector()
-    .then(connectToDb)
-    .then(getAllData)
-    .then(close)
-    .then( (data) => {res.send(data)})
-})
-
-
-
+app.use(router)
 
 app.listen(3000, function () {
     console.log('Example app listening on port 3000!');

@@ -10,7 +10,7 @@ function generateUrl(tech) {
 
 async function startCrawling(tech) {
 
-    let url = generateUrl(tech);
+    let url = generateUrl(encodeURIComponent(tech));
 
     let response = await makeRequest(url);
 

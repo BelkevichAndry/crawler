@@ -1,4 +1,8 @@
-{
+{ 
+  "server": {
+    "host": "localhost",
+    "port": "3000"
+  },
   "end_point" : {
     "base_url":"https://api.hh.ru/vacancies"
   },
