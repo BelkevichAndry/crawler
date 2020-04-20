@@ -27,12 +27,3 @@ export async function close(connection_data){
     return data;
 }
 
-export async function getAllData(connection_data){
-    let {db} = connection_data;
-    try {
-        let data = await db.collection("technologies").find({}).toArray();
-        return {data: data, client: connection_data.client};
-    } catch (e) {
-        throw e
-    }
-}
